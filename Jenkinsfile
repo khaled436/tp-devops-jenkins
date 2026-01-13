@@ -14,26 +14,35 @@ pipeline {
             }
         }
         stage('Run'){
-            def output = bat (script:"docker run -it -d pysum", returnStdout: true)
-            def lines = output.split('\n')
-            CONTAINER_ID = lines[-1].trim()
+            steps{
+                script{
+                    def output = bat (script:"docker run -it -d pysum", returnStdout: true)
+                    def lines = output.split('\n')
+                    CONTAINER_ID = lines[-1].trim()
+                }
+            }
         }
         stage('Test'){
-            def testLines = readFile(TEST_FILE_PATH).split('\n')
-            for(line in testLines) {
-                def vars = line.split(' ')
-                def arg1 = vars[0]
-                def arg2 = vars[1]
-                def expectedSum = vars[2].toFloat()
-                def output = bat (script:"docker exec ${CONTAINER_ID} python sum.py " + arg1 + " " + arg2,returnStdout:true)
-                def result = output.split('\n')[-1].trim().toFloat()
-                if (result == expectedSum){
-                    echo "TEST PASSED"
-                } else {
-                    error "TEST FAILED"
-                }
+            steps{
+                script{
+                    def testLines = readFile(TEST_FILE_PATH).split('\n')
+                    for(line in testLines) {
+                        def vars = line.split(' ')
+                        def arg1 = vars[0]
+                        def arg2 = vars[1]
+                        def expectedSum = vars[2].toFloat()
+                        def output = bat (script:"docker exec ${CONTAINER_ID} python sum.py " + arg1 + " " + arg2,returnStdout:true)
+                        def result = output.split('\n')[-1].trim().toFloat()
+                        if (result == expectedSum){
+                            echo "TEST PASSED"
+                        } else {
+                            error "TEST FAILED"
+                        }
 
+                    }
+                }
             }
+   
         }
         stage('post') {
             bat ("docker rm --force ${CONTAINER_ID}")
@@ -41,7 +50,7 @@ pipeline {
         stage('Deploy'){
             withCredentials([usernamePassword(credentialsId: '6d7d1e78-2884-4ac3-9ad7-522efa02381f', passwordVariable: 'DOCKERHUB_CREDENTIALS_PSW', usernameVariable: 'DOCKERHUB_CREDENTIALS_USR')]) {
             bat ("docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}")
-        }
+            }
         }
     }
 }
