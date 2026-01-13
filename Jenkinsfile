@@ -78,8 +78,8 @@ pipeline {
         }
 
     stage('post') {
-        always {
-            node {
+         steps  {
+            script {
                 if (env.CONTAINER_ID?.trim()) {
                     echo "Test terminé, on arrête le docker ${env.CONTAINER_ID}"
                     sh "docker stop ${env.CONTAINER_ID}"
