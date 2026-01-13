@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Test'){
             def testLines = readFile(TEST_FILE_PATH).split('\n')
-            for(lineintestLines) {
+            for(line in testLines) {
                 def vars = line.split(' ')
                 def arg1 = vars[0]
                 def arg2 = vars[1]
