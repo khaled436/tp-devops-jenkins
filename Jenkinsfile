@@ -28,7 +28,7 @@ pipeline {
                 returnStdout: true
             )
             def lines = output.split('\n')
-            CONTAINER_ID = lines[-1].trim()
+            env.CONTAINER_ID = lines[-1].trim()
 
         }
     }
@@ -49,7 +49,7 @@ pipeline {
                     def arg1 = vars[0]
                     def arg2 = vars[1]
                     def expectedSum = vars[2].toFloat()
-                    def output = sh(script: "docker exec ${CONTAINER_ID} python /app/sum.py ${arg1} ${arg2}", returnStdout: true).trim()
+                    def output = sh(script: "docker exec ${env.CONTAINER_ID} python /app/sum.py ${arg1} ${arg2}", returnStdout: true).trim()
                     def result = output.toFloat()
 
                     if (result == expectedSum) {
@@ -80,12 +80,12 @@ pipeline {
     post {
         always {
             script {
-                if (CONTAINER_ID?.trim()) {
-                    echo "Test terminé, on arrête le docker ${CONTAINER_ID}"
-                    sh "docker stop ${CONTAINER_ID}"
+                if (env.CONTAINER_ID?.trim()) {
+                    echo "Test terminé, on arrête le docker ${env.CONTAINER_ID}"
+                    sh "docker stop ${env.CONTAINER_ID}"
 
-                    echo "Le docker est arrêté, maintenant on le supprime ${CONTAINER_ID}"
-                    sh "docker rm ${CONTAINER_ID}"
+                    echo "Le docker est arrêté, maintenant on le supprime ${env.CONTAINER_ID}"
+                    sh "docker rm ${env.CONTAINER_ID}"
                 } else {
                     echo "Aucun conteneur n'a besoin d'être arrêté pour le moment."
                 }
