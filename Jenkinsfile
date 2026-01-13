@@ -14,7 +14,7 @@ pipeline {
             }
         }
         stage('Run'){
-            def output = bat (script:"docker run -it -d pysum",return Stdout:true)
+            def output = bat (script:"docker run -it -d pysum", return Stdout:true)
             def lines = output.split('\n')
             CONTAINER_ID = lines[-1].trim()
         }
