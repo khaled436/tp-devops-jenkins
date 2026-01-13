@@ -42,5 +42,6 @@ pipeline {
             withCredentials([usernamePassword(credentialsId: '6d7d1e78-2884-4ac3-9ad7-522efa02381f', passwordVariable: 'DOCKERHUB_CREDENTIALS_PSW', usernameVariable: 'DOCKERHUB_CREDENTIALS_USR')]) {
             bat ("docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}")
         }
+        }
     }
 }
