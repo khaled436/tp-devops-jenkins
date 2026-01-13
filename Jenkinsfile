@@ -5,7 +5,7 @@ pipeline {
         CONTAINER_ID = ""
         SUM_PY_PATH = "/app/sum.py"
         DIR_PATH = "."
-        TEST_FILE_PATH = "test_variables.txt"
+        TEST_FILE_PATH = "C:/Users/ThinkPad/Desktop/school/tp devops jenkins/test_variables.txt"
         IMAGE_NAME = "sum-python-image"
         IMAGE_TAG = "latest"
         DOCKERHUB_CREDENTIALS= credentials('6d7d1e78-2884-4ac3-9ad7-522efa02381f')
