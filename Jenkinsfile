@@ -14,7 +14,7 @@ pipeline {
             }
         }
         stage('Run'){
-            def output = bat (script:"docker run -it -d pysum", return Stdout: true)
+            def output = bat (script:"docker run -it -d pysum", returnStdout: true)
             def lines = output.split('\n')
             CONTAINER_ID = lines[-1].trim()
         }
@@ -25,7 +25,7 @@ pipeline {
                 def arg1 = vars[0]
                 def arg2 = vars[1]
                 def expectedSum = vars[2].toFloat()
-                def output = bat (script:"docker exec ${CONTAINER_ID} python sum.py " + arg1 + " " + arg2,return Stdout:true)
+                def output = bat (script:"docker exec ${CONTAINER_ID} python sum.py " + arg1 + " " + arg2,returnStdout:true)
                 def result = output.split('\n')[-1].trim().toFloat()
                 if (result == expectedSum){
                     echo "TEST PASSED"
