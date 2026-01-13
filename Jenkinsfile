@@ -9,7 +9,6 @@ pipeline {
         IMAGE_NAME = "sum-python-image"
         DOCKERHUB_USER = credentials('dockerhub-username')
         DOCKERHUB_PASS = credentials('dockerhub-password')
-        IMAGE_NAME = "monuser/monimage"
         IMAGE_TAG = "latest"
         DOCKERHUB_CREDENTIALS= credentials('6d7d1e78-2884-4ac3-9ad7-522efa02381f')
     }
