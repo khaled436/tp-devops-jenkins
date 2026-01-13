@@ -7,8 +7,6 @@ pipeline {
         DIR_PATH = "."
         TEST_FILE_PATH = "test_variables.txt"
         IMAGE_NAME = "sum-python-image"
-        DOCKERHUB_USER = credentials('dockerhub-username')
-        DOCKERHUB_PASS = credentials('dockerhub-password')
         IMAGE_TAG = "latest"
         DOCKERHUB_CREDENTIALS= credentials('6d7d1e78-2884-4ac3-9ad7-522efa02381f')
     }
@@ -65,7 +63,7 @@ pipeline {
         steps {
             script {
             withCredentials([usernamePassword(credentialsId: '6d7d1e78-2884-4ac3-9ad7-522efa02381f', passwordVariable: 'DOCKERHUB_CREDENTIALS_PSW', usernameVariable: 'DOCKERHUB_CREDENTIALS_USR')]) {
-            sh """ echo "Début de la Connexion à DockerHub..." echo "${DOCKERHUB_PASS}" | docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}
+            sh """ echo "Début de la Connexion à DockerHub..." | docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}
              echo "Connexion à DockerHub réussi..."
             echo "Tag de l'image en cours..." docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:${IMAGE_TAG}
             echo "Tag de l'image réussi"
