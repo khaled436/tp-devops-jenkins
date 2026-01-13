@@ -76,8 +76,8 @@ pipeline {
             }}
             }
         }
-}
-    post {
+
+    stage('post') {
         always {
             node {
                 if (env.CONTAINER_ID?.trim()) {
@@ -93,5 +93,5 @@ pipeline {
             }
         }
     }
-
+}
 }
