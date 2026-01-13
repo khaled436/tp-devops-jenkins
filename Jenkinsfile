@@ -19,7 +19,7 @@ pipeline {
                 sh "docker build -t ${IMAGE_NAME} ${DIR_PATH}"
             }
         }
-    }
+    
     stage('Run') {
     steps {
         script {
@@ -76,6 +76,7 @@ pipeline {
             }}
             }
         }
+
     post {
         always {
             script {
@@ -93,4 +94,4 @@ pipeline {
         }
     }
 
-}
+}}
